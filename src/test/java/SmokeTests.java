@@ -110,7 +110,7 @@ public class SmokeTests extends BasicTestCase {
     }
     @Features("Product details page")
     @Title("Is Product details page displayed")
-    @Test
+    @Test(enabled = false)
     public void isClickOnTitleOfProductCardOpenProductDetailPage() throws InterruptedException, IOException {
         homePage.moveToCatalogCategoryItem(1);
         productPage= homePage.clickOnSubItemOfCatalog(1, 28);
