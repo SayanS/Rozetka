@@ -71,7 +71,7 @@ public class SmokeTests extends BasicTestCase {
     @Title("Search functionality")
     @Description("This testcase checks search functionality by Product Title Name")
     @Severity(SeverityLevel.NORMAL)
-    @Test(enabled=false)
+    @Test
     public void headerSearchByProductTitleName() throws InterruptedException, IOException {
         String expectedProductTitleName = "Lenovo";
         headerSearchFor(expectedProductTitleName);
