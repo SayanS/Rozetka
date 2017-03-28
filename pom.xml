@@ -130,9 +130,8 @@
             <plugin>
                 <groupId>ru.yandex.qatools.allure</groupId>
                 <artifactId>allure-maven-plugin</artifactId>
-                <configuration>
-                    <resultsDirectory>allure-results</resultsDirectory>
-                </configuration>
+                <version>1.4.0</version>
+
             </plugin>
         </plugins>
     </reporting>
