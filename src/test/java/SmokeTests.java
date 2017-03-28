@@ -32,7 +32,7 @@ public class SmokeTests extends BasicTestCase {
     @Title("Is Home page loaded")
     @Description("This testcase checks that some elements of Home page are loaded")
     @Severity(SeverityLevel.BLOCKER)
-    @Test(enabled = false)
+    @Test(enabled = true)
     public void isHomePageLoaded() throws FileNotFoundException, YamlException, InterruptedException {
         YamlReader reader = new YamlReader(new FileReader(ConfigProperties.getProperty("testData.HomePageMapping")));
         HomePageDataMapping expectedHomePageData = new HomePageDataMapping();
@@ -47,7 +47,7 @@ public class SmokeTests extends BasicTestCase {
     @Title("Catalog items links")
     @Description("This testcase checks that click on each item of Catalog menu is opened appropriate Url")
     @Severity(SeverityLevel.CRITICAL)
-    @Test(enabled = false)
+    @Test(enabled = true)
     public void isCatalogItemOpenAppropriatePage() throws Exception {
         YamlReader reader = new YamlReader(new FileReader(ConfigProperties.getProperty("testData.leftSideMenuCategoryItems")));
         Map<String, String> catalogCategoryUrl = (Map<String, String>) reader.read();
@@ -88,7 +88,7 @@ public class SmokeTests extends BasicTestCase {
     }
 
     @Step("Check that all links of Sub items of Catalog is clickable and opened appropreate URL")
-    @Test(enabled = false)
+    @Test(enabled = true)
     public void checkSubItemsLinksOfCatalog() throws IOException, InterruptedException {
         List<String> allSubItemsHrefs = new ArrayList<String>();
 
@@ -110,7 +110,7 @@ public class SmokeTests extends BasicTestCase {
     }
     @Features("Product details page")
     @Title("Is Product details page displayed")
-    @Test(enabled = false)
+    @Test(enabled = true)
     public void isClickOnTitleOfProductCardOpenProductDetailPage() throws InterruptedException, IOException {
         homePage.moveToCatalogCategoryItem(1);
         productPage= homePage.clickOnSubItemOfCatalog(1, 28);
