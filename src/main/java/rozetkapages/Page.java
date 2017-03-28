@@ -60,7 +60,7 @@ public abstract class Page {
 
     public boolean waitVisabilityOf(String xpath) {
         Boolean flag;
-        (new WebDriverWait(webDriver, 10)).until(ExpectedConditions.presenceOfElementLocated(By.xpath(xpath)));
+        (new WebDriverWait(webDriver, 30)).until(ExpectedConditions.presenceOfElementLocated(By.xpath(xpath)));
         try {
             flag = webDriver.findElement(By.xpath(xpath)).isDisplayed();
         } catch (Exception e) {

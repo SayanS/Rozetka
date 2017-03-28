@@ -6,6 +6,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.How;
 import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.Wait;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,6 +46,7 @@ public class HomePage extends Page{
 
     public HomePage open(String url) throws InterruptedException {
         webDriver.navigate().to(url);
+        waitVisabilityOf("//div[contains(text(),'Отказаться')]");
         try{
             webDriver.findElement(By.xpath("//div[contains(text(),'Отказаться')]")).click();
         }catch (Exception e){
@@ -101,9 +103,15 @@ public class HomePage extends Page{
         return PageFactory.initElements(webDriver, ProductPage.class);
     }
 
-    public void moveToCatalogCategoryItem(int j) {
-        moveTo("("+CATALOG_MENU_ITEMS+")["+j+"]");
-        waitVisabilityOf("(.//div[contains(text(),'Популярные категории')])["+j+"]");
+    public void moveToCatalogCategoryItem(int catalogCategoryIndex) throws InterruptedException {
+        moveTo("("+CATALOG_MENU_ITEMS+")["+catalogCategoryIndex+"]");
+        //webDriver.findElement(By.xpath("("+CATALOG_MENU_ITEMS+")["+j+"]")).click();
+        waitVisabilityOf("((.//div[@name='second_level'])["+catalogCategoryIndex+"]//ul//a)[1]");
+    }
+
+    public void moveToProductsCatalogButton() throws InterruptedException {
+        moveTo("//a[@id='fat_menu_btn']");
+        waitVisabilityOf("(//a[@name='fat_menu_link'])[1]");
     }
 
 

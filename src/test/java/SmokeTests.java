@@ -96,7 +96,7 @@ public class SmokeTests extends BasicTestCase {
             homePage.moveToCatalogCategoryItem(j);
             allSubItemsHrefs = homePage.getSubItemsHrefsOfCatalogCategory(j);
             for (int i=1;i<=allSubItemsHrefs.size()+1;i++) {
-                homePage.clickOnProductsCatalogButton();
+                homePage.moveToProductsCatalogButton();
                 homePage.moveToCatalogCategoryItem(j);
                 productPage =homePage.clickOnSubItemOfCatalog(j, i);
                 productPage.waitProductCategoryPage();
