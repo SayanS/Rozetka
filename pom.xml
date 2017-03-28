@@ -69,7 +69,11 @@
             <artifactId>allure-report-data</artifactId>
             <version>${allure.version}</version>
         </dependency>
-
+        <dependency>
+            <groupId>ru.yandex.qatools.allure</groupId>
+            <artifactId>allure-commandline</artifactId>
+            <version>1.5.0</version>
+        </dependency>
     </dependencies>
 
     <build>
