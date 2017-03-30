@@ -14,7 +14,7 @@ import java.util.List;
 
 public class ProductPage extends Page {
     public ProductPage(WebDriver webDriver) {
-        super(webDriver);
+        super(webDriver, ProductPage.class);
     }
 
     public static final String FILTER_BLOCKS = ".//*[@name='filter_parameters_block']";

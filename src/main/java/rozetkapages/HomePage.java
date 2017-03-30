@@ -1,8 +1,11 @@
 package rozetkapages;
 
+import org.jsoup.select.Evaluator;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Action;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.How;
 import org.openqa.selenium.support.PageFactory;
@@ -14,14 +17,13 @@ import java.util.List;
 public class HomePage extends Page{
 
     public HomePage(WebDriver webDriver){
-       super(webDriver);
+       super(webDriver, HomePage.class);
     }
 
     LoginPopUp loginPopUp=new LoginPopUp(webDriver);
 
     private static final String CATALOG_MENU_ITEM=".//li[@name='m-main-i']/a[contains(text(),'$MenuItemName')]";
     private static final String CATALOG_MENU_ITEMS="//a[@name='fat_menu_link']";
-    private static final String CATALOG_MENU_BUTTON="//a[@id='fat_menu_btn']";
     private static final String RIGHT_SIDE_MENU_PROMOTION_TITLE="//h2/span[@class='sprite-side main-promotions-title-inner']";
     private static final String CATALOG_MENU_ITEMS_WITH_SUB_ITEMS="//div[@name='second_level']/ancestor::li/a";
 
@@ -31,17 +33,20 @@ public class HomePage extends Page{
     @FindBy(how= How.XPATH, xpath="//button[@name='rz-search-button']")
     private WebElement headerSearchButton;
 
-    @FindBy(how= How.XPATH, xpath=CATALOG_MENU_BUTTON)
+    @FindBy(how= How.XPATH, xpath="//a[@id='fat_menu_btn']")
     private WebElement catalogMenuButton;
 
     @FindBy(how= How.XPATH, xpath=RIGHT_SIDE_MENU_PROMOTION_TITLE)
     private WebElement rightSideMenuPromotionTitle;
 
+    @FindBy(how=How.XPATH, xpath = ".//a[@name='profile']")
+    private WebElement userProfileLink;
+
 
     public SearchResultsPage headerSearchForText(String text){
         headerSearchField.sendKeys(text);
         headerSearchButton.click();
-        return PageFactory.initElements(webDriver, SearchResultsPage.class);
+        return new SearchResultsPage(webDriver);
     }
 
     public HomePage open(String url) throws InterruptedException {
@@ -51,17 +56,16 @@ public class HomePage extends Page{
             webDriver.findElement(By.xpath("//div[contains(text(),'Отказаться')]")).click();
         }catch (Exception e){
         }
-         return PageFactory.initElements(webDriver, HomePage.class);
+         return new HomePage(webDriver);
     }
 
     public ProductPage openProductCategoryPage(String categoryName) throws Exception{
-        //((JavascriptExecutor)webDriver).executeScript("arguments[0].scrollIntoView();",webDriver.findElement(By.xpath(CATALOG_MENU_BUTTON)));
-        moveTo(CATALOG_MENU_BUTTON);
-        clickOnButton(CATALOG_MENU_BUTTON);
+        moveTo(catalogMenuButton);
+        catalogMenuButton.click();
         waitVisabilityOf(CATALOG_MENU_ITEM.replace("$MenuItemName", categoryName));
         moveTo(CATALOG_MENU_ITEM.replace("$MenuItemName", categoryName));
         clickOnButton(CATALOG_MENU_ITEM.replace("$MenuItemName", categoryName));
-        return PageFactory.initElements(webDriver, ProductPage.class);
+        return new ProductPage(webDriver);
     }
 
     public List<String> getAllCategoryNameOfCatalog() {
@@ -90,7 +94,7 @@ public class HomePage extends Page{
     public List<String> getSubItemsHrefsOfCatalogCategory(int j) {
         List<WebElement> subItems=new ArrayList<WebElement>();
         List<String> subItemsHrefs=new ArrayList<String>();
-        moveTo(CATALOG_MENU_BUTTON);
+        moveTo(catalogMenuButton);
         subItems=webDriver.findElements(By.xpath(("(.//div[@name='second_level'])["+j+"]//ul//a")));
         for(WebElement we:subItems){
             subItemsHrefs.add(we.getAttribute("href"));
@@ -100,25 +104,19 @@ public class HomePage extends Page{
 
     public ProductPage clickOnSubItemOfCatalog(Integer catalogCategoryIndex, Integer subItemIndex) {
         webDriver.findElement(By.xpath("((.//div[@name='second_level'])["+catalogCategoryIndex+"]//ul//a)["+subItemIndex+"]")).click();
-        return PageFactory.initElements(webDriver, ProductPage.class);
+        return new ProductPage(webDriver);
     }
 
     public void moveToCatalogCategoryItem(int catalogCategoryIndex) throws InterruptedException {
         moveTo("("+CATALOG_MENU_ITEMS+")["+catalogCategoryIndex+"]");
-        //webDriver.findElement(By.xpath("("+CATALOG_MENU_ITEMS+")["+j+"]")).click();
         waitVisabilityOf("((.//div[@name='second_level'])["+catalogCategoryIndex+"]//ul//a)[1]");
     }
 
     public void moveToProductsCatalogButton() throws InterruptedException {
-        moveTo("//a[@id='fat_menu_btn']");
+        moveTo(catalogMenuButton);
         waitVisabilityOf("(//a[@name='fat_menu_link'])[1]");
     }
 
 
-    /*public void getHomePageData() {
-        HomePageDataMapping actualHomePageData=new HomePageDataMapping();
-        actualHomePageData.setLeftSideMenuCategoryTitle();;
-        actualHomePageData.setRightSideMenuPromotionTitle(rightSideMenuPromotionTitle.getText());
 
-    }*/
 }

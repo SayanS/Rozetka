@@ -4,8 +4,11 @@ import com.esotericsoftware.yamlbeans.YamlReader;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.testng.Assert;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 import rozetkadata.HomePageDataMapping;
+import rozetkapages.HomePage;
 import rozetkapages.ProductDetailsPage;
 import rozetkapages.ProductPage;
 import rozetkapages.SearchResultsPage;
@@ -26,6 +29,12 @@ public class SmokeTests extends BasicTestCase {
     private SearchResultsPage searchResultsPage;
     private ProductPage productPage;
     private ProductDetailsPage productDetailsPage;
+    public HomePage homePage=new HomePage(getWebDriver());
+
+    @BeforeTest
+    public void setUp() throws InterruptedException {
+        homePage=homePage.open(ConfigProperties.getProperty("baseURL"));
+    }
 
     @Features("Page functionality")
     @Stories("Checking load functionality")
@@ -76,7 +85,7 @@ public class SmokeTests extends BasicTestCase {
         String expectedProductTitleName = "Lenovo";
         headerSearchFor(expectedProductTitleName);
 
-        for (String productTitleName : searchResultsPage.getListProductsTitleName()) {
+        for (String productTitleName : searchResultsPage.getAllProductTitleName()) {
             createScreenShot(Thread.currentThread().getStackTrace()[1].getMethodName());
             Assert.assertTrue(productTitleName.contains(expectedProductTitleName), productTitleName + " isn't contained " + expectedProductTitleName);
         }
@@ -93,6 +102,7 @@ public class SmokeTests extends BasicTestCase {
         List<String> allSubItemsHrefs = new ArrayList<String>();
 
         for (int j = 1; j <= homePage.getAmountOfCatalogCategoryWithSubItems(); j++) {
+            homePage.moveToProductsCatalogButton();
             homePage.moveToCatalogCategoryItem(j);
             allSubItemsHrefs = homePage.getSubItemsHrefsOfCatalogCategory(j);
             for (int i=1;i<=allSubItemsHrefs.size()+1;i++) {

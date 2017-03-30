@@ -11,7 +11,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 public class ProductDetailsPage extends Page{
 
     public ProductDetailsPage(WebDriver webDriver){
-        super(webDriver);
+        super(webDriver, ProductDetailsPage.class);
     }
 
     @FindBy(how=How.XPATH, xpath="//h1")
@@ -19,7 +19,6 @@ public class ProductDetailsPage extends Page{
 
 
     public boolean isLoadedProductDetailsPage(){
-        //waitVisabilityOf(pageTitle);
         return pageTitle.isDisplayed();
     }
 

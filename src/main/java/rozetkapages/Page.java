@@ -5,6 +5,7 @@ import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.FluentWait;
 import org.openqa.selenium.support.ui.Wait;
@@ -19,8 +20,9 @@ import java.util.function.Function;
 public abstract class Page {
     protected WebDriver webDriver;
 
-    public Page(WebDriver webDriver) {
+    public Page(WebDriver webDriver, Object pageClass) {
         this.webDriver = webDriver;
+        PageFactory.initElements(webDriver, pageClass);
     }
 
     public List<String> getTextOfWebElements(String webElementXpath) {
@@ -56,6 +58,11 @@ public abstract class Page {
     public void moveTo(String xpath) {
         Actions action = new Actions(webDriver);
         action.moveToElement(webDriver.findElement(By.xpath(xpath))).perform();
+    }
+
+    public void moveTo(WebElement webElement) {
+        Actions action = new Actions(webDriver);
+        action.moveToElement(webElement).perform();
     }
 
     public boolean waitVisabilityOf(String xpath) {
