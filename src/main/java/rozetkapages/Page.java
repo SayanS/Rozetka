@@ -17,12 +17,11 @@ import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
 
 
-public abstract class Page {
+public class Page {
     protected WebDriver webDriver;
 
-    public Page(WebDriver webDriver, Object pageClass) {
-        this.webDriver = webDriver;
-        PageFactory.initElements(webDriver, pageClass);
+    public Page(WebDriver webDriver){
+        this.webDriver=webDriver;
     }
 
     public List<String> getTextOfWebElements(String webElementXpath) {
@@ -67,8 +66,8 @@ public abstract class Page {
 
     public boolean waitVisabilityOf(String xpath) {
         Boolean flag;
-        (new WebDriverWait(webDriver, 30)).until(ExpectedConditions.presenceOfElementLocated(By.xpath(xpath)));
         try {
+            (new WebDriverWait(webDriver, 30)).until(ExpectedConditions.visibilityOf(webDriver.findElement(By.xpath(xpath))));
             flag = webDriver.findElement(By.xpath(xpath)).isDisplayed();
         } catch (Exception e) {
             flag = false;
@@ -80,4 +79,6 @@ public abstract class Page {
     public String getCurrentUrl() {
         return webDriver.getCurrentUrl();
     }
+
+
 }

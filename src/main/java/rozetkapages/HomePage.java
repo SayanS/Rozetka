@@ -17,7 +17,8 @@ import java.util.List;
 public class HomePage extends Page{
 
     public HomePage(WebDriver webDriver){
-       super(webDriver, HomePage.class);
+       super(webDriver);
+     PageFactory.initElements(webDriver, this);
     }
 
     LoginPopUp loginPopUp=new LoginPopUp(webDriver);
@@ -56,7 +57,7 @@ public class HomePage extends Page{
             webDriver.findElement(By.xpath("//div[contains(text(),'Отказаться')]")).click();
         }catch (Exception e){
         }
-         return new HomePage(webDriver);
+        return new HomePage(webDriver);
     }
 
     public ProductPage openProductCategoryPage(String categoryName) throws Exception{

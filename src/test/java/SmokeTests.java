@@ -8,10 +8,7 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 import rozetkadata.HomePageDataMapping;
-import rozetkapages.HomePage;
-import rozetkapages.ProductDetailsPage;
-import rozetkapages.ProductPage;
-import rozetkapages.SearchResultsPage;
+import rozetkapages.*;
 import rozetkautils.ConfigProperties;
 import ru.yandex.qatools.allure.annotations.*;
 import ru.yandex.qatools.allure.model.SeverityLevel;
@@ -31,7 +28,7 @@ public class SmokeTests extends BasicTestCase {
     private ProductDetailsPage productDetailsPage;
     public HomePage homePage=new HomePage(getWebDriver());
 
-    @BeforeTest
+   @BeforeTest
     public void setUp() throws InterruptedException {
         homePage=homePage.open(ConfigProperties.getProperty("baseURL"));
     }
@@ -46,6 +43,7 @@ public class SmokeTests extends BasicTestCase {
         YamlReader reader = new YamlReader(new FileReader(ConfigProperties.getProperty("testData.HomePageMapping")));
         HomePageDataMapping expectedHomePageData = new HomePageDataMapping();
         expectedHomePageData = reader.read(HomePageDataMapping.class);
+
         Assert.assertEquals(homePage.getRightSideMenuPromotionTitle(), expectedHomePageData.getRightSideMenuPromotionTitle());
         Assert.assertEquals(homePage.getTextCatalogMenuButton(), expectedHomePageData.getLeftSideMenuCategoryTitle());
         Assert.assertEquals(homePage.getAllCategoryNameOfCatalog(), expectedHomePageData.getleftSideMenuCategoryItems());

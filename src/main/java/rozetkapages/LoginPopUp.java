@@ -4,10 +4,12 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.How;
+import org.openqa.selenium.support.PageFactory;
 
 public class LoginPopUp extends Page{
     public LoginPopUp(WebDriver webDriver){
-        super(webDriver, LoginPopUp.class);
+        super(webDriver);
+       PageFactory.initElements(webDriver, this);
     }
 
     @FindBy(how=How.XPATH, xpath = ".//input[@name='login']")
