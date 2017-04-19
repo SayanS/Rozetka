@@ -21,7 +21,7 @@ public class HomePage extends Page{
      PageFactory.initElements(webDriver, this);
     }
 
-    LoginPopUp loginPopUp=new LoginPopUp(webDriver);
+   // LoginPopUp loginPopUp=new LoginPopUp(webDriver);
 
     private static final String CATALOG_MENU_ITEM=".//li[@name='m-main-i']/a[contains(text(),'$MenuItemName')]";
     private static final String CATALOG_MENU_ITEMS="//a[@name='fat_menu_link']";
@@ -42,6 +42,9 @@ public class HomePage extends Page{
 
     @FindBy(how=How.XPATH, xpath = ".//a[@name='profile']")
     private WebElement userProfileLink;
+
+    @FindBy(how=How.XPATH, xpath = ".//a[@name='signin']")
+    private WebElement signinButton;
 
 
     public SearchResultsPage headerSearchForText(String text){
@@ -116,6 +119,11 @@ public class HomePage extends Page{
     public void moveToProductsCatalogButton() throws InterruptedException {
         moveTo(catalogMenuButton);
         waitVisabilityOf("(//a[@name='fat_menu_link'])[1]");
+    }
+
+    public LoginPopUp openLoginPopUp(){
+        signinButton.click();
+        return new LoginPopUp(webDriver);
     }
 
 

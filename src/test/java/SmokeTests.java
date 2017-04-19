@@ -70,7 +70,6 @@ public class SmokeTests extends BasicTestCase {
 
             Assert.assertEquals(category.getValue(), productPage.getUrl());
         }
-
     }
 
     @Features("Elements functionality")

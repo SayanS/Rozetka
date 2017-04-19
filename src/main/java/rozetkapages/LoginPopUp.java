@@ -24,6 +24,9 @@ public class LoginPopUp extends Page{
     @FindBy(how= How.XPATH, xpath = "//div[@name='simple_auth']//a[@name='close']" )
     private WebElement cancelButton;
 
+    @FindBy(how=How.XPATH, xpath = ".//a[@href='https://my.rozetka.com.ua/signup/']")
+    private WebElement signUpButton;
+
     public void inputLogin(String login){
         loginField.clear();
         loginField.sendKeys(login);
@@ -41,6 +44,11 @@ public class LoginPopUp extends Page{
     public HomePage openPostLoginHomePage(){
         loginButton.click();
         return new HomePage(webDriver);
+    }
+
+    public SignUpPage openSignUpPage(){
+        signUpButton.click();
+        return new SignUpPage(webDriver);
     }
 
 
