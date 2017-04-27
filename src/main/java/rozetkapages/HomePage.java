@@ -126,6 +126,9 @@ public class HomePage extends Page{
         return new LoginPopUp(webDriver);
     }
 
-
+    public void openUrl(String url) throws InterruptedException {
+        Thread.sleep(5000);
+        webDriver.navigate().to(url);
+    }
 
 }

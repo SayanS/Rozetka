@@ -1,11 +1,10 @@
+import org.dom4j.DocumentException;
+import org.jdom.JDOMException;
 import org.testng.Assert;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 import org.xml.sax.SAXException;
-import rozetkapages.HomePage;
-import rozetkapages.LoginPopUp;
-import rozetkapages.PersonalDataPage;
-import rozetkapages.SignUpPage;
+import rozetkapages.*;
 import rozetkautils.ConfigProperties;
 import rozetkautils.EmailUtilities;
 
@@ -22,28 +21,30 @@ public class AuthenticationTests extends BasicTestCase {
     private PersonalDataPage personalDataPage;
 
 
+
     @BeforeTest
     public void setUp() throws InterruptedException {
         homePage = homePage.open(ConfigProperties.getProperty("baseURL"));
     }
 
     @Test
-    public void checkEmailNotificationOfRegistration() throws IOException, MessagingException, SAXException {
+    public void checkEmailNotificationOfRegistration() throws IOException, MessagingException, SAXException, JDOMException, DocumentException, InterruptedException {
         Message notifMsg;
-        String email="tserg_2011@mail.ru";
-        String password="Rfhfylfitkm";
-        String userName="UserName";
+        String email="Nedаl@mail.ru";
+        String password="h2a221G";
+        String userName="Newrcа";
         signUpPage = homePage.openLoginPopUp().openSignUpPage();
         signUpPage.enterUserName(userName);
         signUpPage.enterUserEmail(email);
         signUpPage.enterUserPassword(password);
         personalDataPage = signUpPage.clickOnRegistration();
         Assert.assertEquals(personalDataPage.getTitlePage(), "Личные данные", "Incorrect page title");
-        notifMsg=EmailUtilities.getEmailMessage(email,password,"<sales@rozetka.com.ua>","Подтверждение регистрации");
+        notifMsg=EmailUtilities.getEmailMessage("tserg_2011@mail.ru","Rfhfylfitkm","<sales@rozetka.com.ua>","Подтверждение регистрации");
         Assert.assertTrue(!notifMsg.equals(null), "Email notification isn't sent");
-        Assert.assertTrue(notifMsg.getContent().toString().contains(password),"Нет пароля в письме!");
-        Assert.assertTrue(notifMsg.getContent().toString().contains(email),"Нет логина в письме!");
-        EmailUtilities.clickOnConfirmRegistration(notifMsg);
+        Assert.assertTrue(notifMsg.getContent().toString().contains("Qwerty1"),"Нет пароля в письме!");
+        Assert.assertTrue(notifMsg.getContent().toString().contains("tserg_2011@mail.ru"),"Нет логина в письме!");
+        personalDataPage.exit();
+        homePage.openUrl(EmailUtilities.getConfirmRegistrationLinkFromEmail(notifMsg));
     }
 
 }
