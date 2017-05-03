@@ -79,18 +79,13 @@ public class SmokeTests extends BasicTestCase {
     @Severity(SeverityLevel.NORMAL)
     @Test
     public void headerSearchByProductTitleName() throws InterruptedException, IOException {
-        String expectedProductTitleName = "Lenovo";
-        headerSearchFor(expectedProductTitleName);
+        String productName = "Lenovo";
+        homePage.headerSearch(productName);
 
         for (String productTitleName : searchResultsPage.getAllProductTitleName()) {
             createScreenShot(Thread.currentThread().getStackTrace()[1].getMethodName());
-            Assert.assertTrue(productTitleName.contains(expectedProductTitleName), productTitleName + " isn't contained " + expectedProductTitleName);
+            Assert.assertTrue(productTitleName.contains(productName), productTitleName + " isn't contained " + productName);
         }
-    }
-
-    @Step("Enter {0} into search field and start search process")
-    public void headerSearchFor(String searchString) {
-        searchResultsPage = homePage.headerSearchForText(searchString);
     }
 
     @Step("Check that all links of Sub items of Catalog is clickable and opened appropreate URL")
@@ -124,6 +119,17 @@ public class SmokeTests extends BasicTestCase {
         productDetailsPage=productPage.clickOnTitleOfProductCard(2);
         createScreenShot(Thread.currentThread().getStackTrace()[1].getMethodName());
         Assert.assertTrue(productDetailsPage.isLoadedProductDetailsPage(), "Page isn't loaded!!!!");
+    }
+    @Test
+    public void checkSearchInCategory() throws InterruptedException {
+        String searchText="Сальник";
+        homePage.selectCategoryOfHeaderSearch(12);
+        searchResultsPage=homePage.headerSearch(searchText);
+        Assert.assertEquals(searchText,searchResultsPage.getTitleSearchFor(), "Title should be "+searchText+" but "+searchResultsPage.getTitleSearchFor());
+        productDetailsPage=searchResultsPage.openProductDetailsPageOfProduct(93);
+        //productDetailsPage.isLoadedProductDetailsPage();
+        productDetailsPage.clickOnCharacteristicsTab();
+        Assert.assertTrue(productDetailsPage.isCharacteristicsContains(searchText), "Nither of the Characteristics contains "+searchText);
     }
 
 }

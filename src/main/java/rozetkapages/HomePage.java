@@ -2,6 +2,7 @@ package rozetkapages;
 
 import org.jsoup.select.Evaluator;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Action;
@@ -9,7 +10,9 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.How;
 import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Wait;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,8 +49,11 @@ public class HomePage extends Page{
     @FindBy(how=How.XPATH, xpath = ".//a[@name='signin']")
     private WebElement signinButton;
 
+    @FindBy(how=How.XPATH, xpath = ".//a[@name='rz-search-category']")
+    private WebElement categoryHeaderSearch;
 
-    public SearchResultsPage headerSearchForText(String text){
+
+    public SearchResultsPage headerSearch(String text){
         headerSearchField.sendKeys(text);
         headerSearchButton.click();
         return new SearchResultsPage(webDriver);
@@ -129,6 +135,15 @@ public class HomePage extends Page{
     public void openUrl(String url) throws InterruptedException {
         Thread.sleep(5000);
         webDriver.navigate().to(url);
+    }
+
+    public String selectCategoryOfHeaderSearch(Integer itemIndex) throws InterruptedException {
+        String selectedCategory;
+        Actions action=new Actions(webDriver);
+        categoryHeaderSearch.click();
+        selectedCategory=webDriver.findElement(By.xpath(".//ul[@name='rz-search-category-list']/li["+itemIndex+"]/a")).getText();
+        ((JavascriptExecutor)webDriver).executeScript("arguments[0].click();", webDriver.findElement(By.xpath(".//ul[@name='rz-search-category-list']/li["+itemIndex+"]/a")));
+        return selectedCategory;
     }
 
 }
